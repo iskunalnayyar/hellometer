@@ -46,4 +46,4 @@ I would've worked on the front end as well. Making sure the plots are arranged i
 The interactive plot zoom & pan are completely unlocked. Which means that you can scroll infinitely. I could limit the 
 scrolling to the extremities of the data inside the plot.
 
-
+I could also have dived deeper into the analytics part of the assignment other than the insights mentioned above.
