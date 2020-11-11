@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive General Plot</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/0.6.6/chartjs-plugin-zoom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+
+</head>
+<body>
+	<div style="width:75%;">
+		<script>
+		var tts = {{context.tts}};
+		var tts_counter = {{context.tts_counter}};
+		var cust_per_hr = {{context.cust_per_hour}};
+		var day_part_one_data = {{context.day_part_one}};
+		var day_part_one_dates = {{context.day_part_one_dates}};
+		var mean_tts = {{context.mean_tts}};
+		var dist_hrs = {{context.dist_hrs}};
+		console.log(day_part_one_dates);
+		var day_part_one_dates_conv = day_part_one_dates.map(item =>{
+		var dt = new Date(item*1000).toString();
+		var myTime = dt.substr(0, 12);
+		return myTime
+		});
+		console.log(day_part_one_dates_conv.length);
+	 	var day_part_two_data = {{context.day_part_two}};
+	 	var day_part_three_data = {{context.day_part_three}};
+	 	var day_part_four_data = {{context.day_part_four}};
+	 	var day_part_five_data = {{context.day_part_five}};
+	 	var day_part_six_data = {{context.day_part_six}};
+</script>
+
+		<canvas id="all-chart" width="800" height="450"></canvas>
+
+		<canvas id="customer-chart" width="800" height="450"></canvas>
+
+		<canvas id="tts-mean-chart" width="800" height="450"></canvas>
+
+		<canvas id="tts-chart" width="800" height="450"></canvas>
+
+	</div>
+	<script>
+
+
+		new Chart(document.getElementById("all-chart"), {
+		  type: 'scatter',
+		  data: {
+			labels: day_part_one_dates_conv,
+			datasets: [{
+				data: day_part_one_data,
+				label: "1",
+				borderColor: "#3e95cd",
+				fill: false
+			  }, {
+				data: day_part_two_data,
+				label: "2",
+				borderColor: "#8e5ea2",
+				fill: false
+			  }, {
+				data: day_part_three_data,
+				label: "3",
+				borderColor: "#3cba9f",
+				fill: false
+			  }, {
+				data: day_part_four_data,
+				label: "4",
+				borderColor: "#e8c3b9",
+				fill: false
+			  }, {
+				data: day_part_five_data,
+				label: "5",
+				borderColor: "#c45850",
+				fill: false
+			  }, {
+				data: day_part_six_data,
+				label: "6",
+				borderColor: "#2cffff",
+				fill: false
+			  }
+			]
+		  },
+		  options: {
+			title: {
+			  display: true,
+			  text: 'Orders per day-part'
+			},
+			scales: {
+			  xAxes: [{
+				type: 'time',
+			  }, ],
+			},
+			pan: {
+			  enabled: true,
+			  mode: 'xy',
+			},
+			zoom: {
+			  enabled: true,
+			  mode: 'xy', // or 'x' for "drag" version
+    		},
+		  }
+		});
+
+
+		new Chart(document.getElementById("customer-chart"), {
+		  type: 'line',
+		  data: {
+			labels: dist_hrs,
+			datasets: [{
+				data: cust_per_hr,
+				label: "Customers",
+				borderColor: "#3e95cd",
+				fill: false
+			  }
+			]
+		  },
+		  options: {
+			title: {
+			  display: true,
+			  text: 'Customer per hour starting Aug 3rd'
+			},
+			pan: {
+			  enabled: true,
+			  mode: 'xy',
+			},
+			zoom: {
+			  enabled: true,
+			  mode: 'xy', // or 'x' for "drag" version
+    		},
+		  }
+		});
+
+
+		new Chart(document.getElementById("tts-mean-chart"), {
+		  type: 'bar',
+		  data: {
+			labels: dist_hrs,
+			datasets: [{
+				data: mean_tts,
+				label: "Mean TTS",
+				borderColor: "#8e5ea2",
+				fill: true
+			  }
+			]
+		  },
+		  options: {
+			title: {
+			  display: true,
+			  text: 'Mean TTS per hour starting Aug 3rd'
+			},
+			pan: {
+			  enabled: true,
+			  mode: 'xy',
+			},
+			zoom: {
+			  enabled: true,
+			  mode: 'xy', // or 'x' for "drag" version
+    		},
+		  }
+		});
+
+
+
+		new Chart(document.getElementById("tts-chart"), {
+		  type: 'line',
+		  data: {
+		  labels: tts_counter,
+			datasets: [{
+				data: tts,
+				label: "Customers",
+				borderColor: "#8e5ea2",
+				fill: false
+			  }
+			]
+		  },
+		  options: {
+			title: {
+			  display: true,
+			  text: 'Distribution of TTS'
+			},
+			pan: {
+			  enabled: true,
+			  mode: 'xy',
+			},
+			zoom: {
+			  enabled: true,
+			  mode: 'xy', // or 'x' for "drag" version
+    		},
+		  }
+		});
+	</script>
+</body>
+</html>
